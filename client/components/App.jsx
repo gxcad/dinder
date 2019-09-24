@@ -11,7 +11,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      businessList: [],
+      businessList: [], //
       currentIndex: 0,
       visited: {},
       favs: [],
@@ -38,7 +38,7 @@ class App extends Component {
 
   // function invokes when the show Favs button is clicked in Sidebar
   //login functions
-  verify(e) {
+  verify(e) { // verify users
     e.preventDefault();
     const user = e.target.username.value;
     const pass = e.target.password.value;
@@ -53,14 +53,14 @@ class App extends Component {
       .catch(err => console.error);
   }
 
-  toggleSidebar() {
+  toggleSidebar() { // open and close sidebar
     this.setState({
       isSidebarOpen: !this.state.isSidebarOpen
     });
   }
 
   // function invokes when the heart button is clicked in MainContainer
-  addFav() {
+  addFav() { // add favorite
     let favs = this.state.favs.slice();
     let visited = Object.assign(this.state.visited);
 
@@ -94,7 +94,7 @@ class App extends Component {
   }
 
   // function invokes when '??' button is clicked in Sidebar
-  deleteFav(yelpid) {
+  deleteFav(yelpid) { // delete favorite
     axios
       .delete('/favorites', {
         data: { currentUser: this.state.currentUser, yelpid }
@@ -108,7 +108,7 @@ class App extends Component {
   }
 
   // function invokes when the next button is clicked in MainContainer
-  moveNext() {
+  moveNext() { // this brings new card
     let visited = Object.assign(this.state.visited);
     visited[this.state.currentIndex] = true;
 
@@ -125,11 +125,11 @@ class App extends Component {
     });
   }
 
-  secret() {
+  secret() { // card dancing effect
     this.setState({ dance: !this.state.dance });
   }
 
-  pressPlay() {
+  pressPlay() { // plays music
     this.setState({ play: true });
     this.audio.play();
   }
@@ -153,7 +153,7 @@ class App extends Component {
         .then(res => {
           // create state businessList with necessary infos
           let businessList = [];
-          for (let restaurant of res.data.businesses) {
+          for (let restaurant of res.data.businesses) { // res.data.businesses is an array with objects
             const businessObj = {
               yelpid: restaurant.id,
               name: restaurant.name,
