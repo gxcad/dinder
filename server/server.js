@@ -24,6 +24,11 @@ app.use('/favorites', favorites);
 app.use('*', (req, res) => {
   res.status(404).send('Route not found');
 });
+
+app.use((err, req, res, next) => {
+  console.log('global error handler triggered');
+})
+
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
