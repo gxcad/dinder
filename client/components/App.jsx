@@ -4,6 +4,10 @@ import MainContainer from './MainContainer.jsx';
 import axios from 'axios';
 import key from '../../config/keys';
 import Login from './Loginpage.jsx';
+import Signup from './Signup.jsx';
+import { Redirect } from "react-router-dom";
+
+
 const LOCATION_SEARCHED = '1600 Main St 1st floor, Venice, CA 90291';
 let MAX_SIZE = 0;
 
@@ -21,9 +25,12 @@ class App extends Component {
       verified: false,
       rerender: false,
       dance: false,
-      play: false
+      play: false,
+      user: "",
+      pass: "",
+      createUser: false
     };
-
+    this.signup = this.signup.bind(this);
     this.toggleSidebar = this.toggleSidebar.bind(this);
     this.addFav = this.addFav.bind(this);
     this.deleteFav = this.deleteFav.bind(this);
@@ -36,24 +43,50 @@ class App extends Component {
     );
   }
 
-  // function invokes when the show Favs button is clicked in Sidebar
-  //login functions
-  verify(e) { // verify users
+
+  // launch signup page after clicked the signup button 
+  signupOpen() {
+    this.setState({ createUser: false });
+    console.log("click");
+  }
+  // signup functions
+  signup(e) {
     e.preventDefault();
     const user = e.target.username.value;
     const pass = e.target.password.value;
 
     axios
+      .post('/signup', { user: user, pass: pass })
+      .then(res => {
+        console.log(res.data)
+        if (res.data === "createUser") {
+          this.setState({ createUser: true, currentUser: user, rerender: true, user: user, pass: pass })
+        }
+      })
+      .catch(err => console.error);
+  }
+
+  //login functions
+  verify(e) { // verify users to login 
+    e.preventDefault();
+    const user = e.target.username.value;
+    const pass = e.target.password.value;
+
+    // post request for login by updating the state user and password 
+    axios
       .post('/login', { user: user, pass: pass })
       .then(res => {
-        if (res.data === 'verified') {
+        console.log(res.data)
+        if (res.data === "verified") {
           this.setState({ verified: true, currentUser: user, rerender: true });
         }
       })
       .catch(err => console.error);
   }
 
+  // function invokes when the show Favs button is clicked in Sidebar
   toggleSidebar() { // open and close sidebar
+    console.log("sideBar")
     this.setState({
       isSidebarOpen: !this.state.isSidebarOpen
     });
@@ -63,8 +96,11 @@ class App extends Component {
   addFav() { // add favorite
     let favs = this.state.favs.slice();
     let visited = Object.assign(this.state.visited);
+    console.log("visited=>", visited)
 
     favs.push(this.state.businessList[this.state.currentIndex]);
+    console.log(favs);
+    console.log("business ->", this.state.businessList)
     visited[this.state.currentIndex] = true;
 
     let currentIndex = getRandomNum(MAX_SIZE);
@@ -73,6 +109,7 @@ class App extends Component {
     while (visited[currentIndex]) {
       currentIndex = getRandomNum(MAX_SIZE);
     }
+    console.log("addFav ==> ", favs, visited)
 
     this.setState({
       currentIndex,
@@ -134,6 +171,7 @@ class App extends Component {
     this.audio.play();
   }
 
+  // 
   componentDidUpdate() {
     if (this.state.rerender === true) {
       // get data from yelp business endpoint
@@ -209,13 +247,27 @@ class App extends Component {
   }
 
   render() {
+    // if verified is false in this.state, return to the Login page
+    // this.verify assigns to verification, and verification passing down to Loginpage. 
     if (this.state.verified === false) {
+      // return < Redirect to="/homepage" />
       return (
         <main>
           <Login verification={this.verify} />
         </main>
       );
     }
+
+    // if createUser is false, then open the signup page
+    if (this.state.createUser === false) {
+
+      return (
+        <main>
+          <Signup newUserInfo={this.signup} />
+        </main>
+      );
+    }
+
     if (this.state.businessList.length === 0) {
       return (
         <main>
