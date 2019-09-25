@@ -7,7 +7,6 @@ const businessList = (state = {
   data: null,
   error: null
 }, action) => {
-  console.log(action);
   switch (action.type) {
     case BUSINESS_LIST_ACTION_TYPE.BUSINESS_LIST_LOADING:
       return {

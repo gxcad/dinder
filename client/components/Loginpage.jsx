@@ -18,41 +18,41 @@ const Login = props => {
 
   const dispatch = useDispatch();
 
-  const onClick = e => {
+  const onSubmit = e => {
+    e.preventDefault();
     dispatch(signIn(username, password));
   };
 
   const redirect = e => {
-    return <Redirect to={'/signup'} />
+    e.preventDefault();
+    props.history.push('/signup');
   };
 
   return (
-    <div className='modal' id='login'>
-      <div className='login-header'>
-        <div className='image-frame'>
-          <img className='logo' src={'../assets/logo.png'} alt={'Logo'}/>
-        </div>
-        <h1>Dinder Login</h1>
+    <div id='SignIn'>
+      <div className={'header'}>
+        <h1>Dinder Sign-In</h1>
       </div>
-      <div>
-        <div>
-          <div>
-            <label htmlFor='user'>Username:</label>
-            <input onChange={e => setUsername(e.target.value)} type='text' name='username' id='user'/>
-          </div>
-          <div>
-            <label htmlFor='password'>Password:</label>
-            <input onChange={e => setPassword(e.target.value)} type='password' name='password' id='password'/>
-          </div>
-
-          <div className='button-group'>
-            <button onClick={onClick} className='sign-in' name=' button' id='button' >
-              <i className='fa fa-sign-in-alt' />
-            </button>
-          </div>
-          <button onClick={redirect} className='sign-up' name=' button' id='button2' >
-            <i className='fas fa-user-plus' />
-          </button>
+      <div className={'body'}>
+        <div className={'modal'}>
+          <form onSubmit={onSubmit} >
+            <div className={'username'}>
+              <label htmlFor="user"> Username: </label>
+              <input required type="text" name="username" id="user" value={username} onChange={e => setUsername(e.target.value)}/>
+            </div>
+            <div className={'password'}>
+              <label htmlFor="password"> Password: </label>
+              <input required type="password" name="password" id="password" value={password} onChange={e => setPassword(e.target.value)}/>
+            </div>
+            <div className={'button'}>
+              <button className='sign-in' name=' button' id='button' type={'submit'}>
+                <i className='fa fa-sign-in-alt' />
+              </button>
+              <button onClick={redirect} className='sign-up' name=' button' id='button2' >
+                <i className='fas fa-user-plus' />
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div >

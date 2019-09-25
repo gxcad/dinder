@@ -1,4 +1,4 @@
-#signUp {
+#SignIn {
   background: url('../assets/bg-main.jpg');
   background-size: cover;
   display: flex;
@@ -10,7 +10,7 @@
   .header {
     background: linear-gradient(45deg, navy, skyblue);
     font-size: 15px;
-    flex-grow: 1;
+    flex-grow: 1.5;
     display: flex;
     align-items: center;
     h1 {
@@ -31,7 +31,7 @@
     justify-content: center;
 
     form > *:not(:last-child) {
-      margin-bottom: 20px;
+      margin-bottom: 30px;
 
     }
     form > * {

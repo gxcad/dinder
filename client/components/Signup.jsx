@@ -10,35 +10,36 @@ const Signup = props => {
 
   const dispatch = useDispatch();
 
-  const onClick = e => {
+  const onSubmit = e => {
+    e.preventDefault();
+
     dispatch(signUp(username, password));
   };
 
   return (
     <div id={'signUp'}>
       <div className={'header'}>
-        <h1>Dinder Signup</h1>
+        <h1>Dinder Sign-Up</h1>
       </div>
       <div className={'body'}>
-        <div className={'username'}>
-          <label htmlFor="user"> Username: </label>
-          <input type="text" name="username" id="user" onChange={e => setUsername(e.target.value)}/>
-        </div>
-        <div className={'password'}>
-          <label htmlFor="password"> Password: </label>
-          <input type="password" name="password" id="password" onChange={e => setPassword(e.target.value)}/>
-        </div>
-        <div className={'button'}>
-          <button onClick={onClick} className="btnSignup" name="button" id="button" type="submit">
-            <i className='fas fa-user-plus' />
-          </button>
+        <div className={'modal'}>
+          <form onSubmit={onSubmit} >
+            <div className={'username'}>
+              <label htmlFor="user"> Username: </label>
+              <input required type="text" name="username" id="user" value={username} onChange={e => setUsername(e.target.value)}/>
+            </div>
+            <div className={'password'}>
+              <label htmlFor="password"> Password: </label>
+              <input required type="password" name="password" id="password" value={password} onChange={e => setPassword(e.target.value)}/>
+            </div>
+            <div className={'button'}>
+              <button className="btnSignup" name="button" id="button" type="submit">
+                <i className='fas fa-user-plus' />
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-      {/*<form onSubmit={newUserInfo}>*/}
-
-
-      {/*</form>*/}
-      {/*<div className="logup">SignUp</div>*/}
     </div>
   )
 };

@@ -11,17 +11,26 @@ import rootReducer from './reducers/reducer';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
+
+import { createBrowserHistory } from 'history';
+
+const history = createBrowserHistory();
 
 // enable redux chrome dev tools
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 // thunkMiddleware allows use dispatch() functions in child components
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
+const store = createStore(
+  rootReducer, // add routerReducer
+  composeEnhancers(applyMiddleware(thunkMiddleware))
+);
+
+// history props for Router!!!
 
 // wrap react app with Provider to connect reducers with child components
 render(<Provider store={store}>
-    <Router>
+    <Router history={history}>
       <div>
         <Route path={'/'} exact component={App} />
         <Route path={'/login'} component={Login} />
