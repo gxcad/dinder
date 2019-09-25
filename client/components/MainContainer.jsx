@@ -1,8 +1,70 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
 import axios from 'axios';
 import key from '../../config/keys';
+import ReactLoading from 'react-loading';
+import _ from 'lodash';
 
-class MainContainer extends Component {
+const MainContainer = props => {
+  const dispatch = useDispatch();
+  const [fetching, setFetching] = useState(false);
+  const [currentBusiness, setCurrentBusiness] = useState(useSelector(state => state.currentBusiness));
+  const getDetail = yelpid => {
+    dispatch({
+      type: 'GET_BUSINESS',
+      payload: yelpid
+    });
+  };
+
+  const DetailComponent = () => (
+    <div>
+      <div className='details-content'>
+        <h3>{currentBusiness.name}</h3>
+        <p>Address: {currentBusiness.address}</p>
+        <p>Rating: {currentBusiness.rating}</p>
+        <p>{currentBusiness.review_count} reviews</p>
+        <p>Price: {currentBusiness.price}</p>
+      </div>
+      <div className='button-group'>
+        <button
+          className='fav'
+          onClick={() => {
+            // addFav();
+            // this.resetState();
+          }}
+        >
+          <i className='fa fa-heart' />
+        </button>
+        <button
+          className='next'
+          onClick={() => {
+            // moveNext();
+            // this.resetState();
+          }}
+        >
+          <i className='fa fa-times' />
+        </button>
+        <a
+          className='yelp'
+          href={currentBusiness.yelpurl}
+          target='_blank'
+        >
+          <i className='fa fa-info' />
+        </a>
+      </div>
+    </div>
+  );
+
+  return <main>
+    <div className='modal details'>
+      {
+        _.isEmpty(currentBusiness) ? <ReactLoading type={'bars'} color={'#000000'} height={350} width={350} /> : <DetailComponent />
+      }
+    </div>
+  </main>;
+};
+
+class MainContainerOld extends Component {
   constructor(props) {
     super(props);
     this.state = this.initialState;

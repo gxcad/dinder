@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import Sidebar from './Sidebar.jsx';
 import MainContainer from './MainContainer.jsx';
 import axios from 'axios';
@@ -8,12 +8,58 @@ import Signup from './Signup.jsx';
 import { Redirect } from "react-router-dom";
 
 
+import Dashboard from './Dashboard.jsx';
 const LOCATION_SEARCHED = '1600 Main St 1st floor, Venice, CA 90291';
 let MAX_SIZE = 0;
 
-class App extends Component {
-  constructor() {
-    super();
+const App = (props) => {
+  const [sidebar, setSidebar] = useState(false);
+  const [dance, setDance] = useState(false);
+  const [visited, setVisited] = useState({});
+  const [play, setPlay] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [fetchingDetails, setFetchingDetails] = useState(false);
+  const audio = new Audio('https://iringtone.net/rington/file?id=8454&type=sound&name=mp3');
+
+  useEffect(() => {
+    if (play) audio.play();
+    else audio.pause();
+  }, [play]);
+
+  // function invokes when the next button is clicked in MainContainer
+  const moveNext = () => { // this brings new card
+    let visited = Object.assign(visited);
+    visited[currentIndex] = true;
+
+    setCurrentIndex(getRandomNum(MAX_SIZE));
+    // if currentIndex is already visited get another one
+    while (visited[currentIndex]) {
+      setCurrentIndex(getRandomNum(MAX_SIZE));
+    }
+    setVisited(visited);
+    setFetchingDetails(false);
+  };
+
+  return (
+    <div className={`container`}>
+      <Sidebar
+        isSidebarOpen={sidebar}
+        toggleSidebar={() => setSidebar(!sidebar)}
+        dance={dance}
+        secret={() => setDance(!dance)}
+        pressPlay={setPlay}
+      />
+      <Dashboard />
+      {/*<MainContainer*/}
+      {/*  moveNext={moveNext}*/}
+      {/*/>*/}
+    </div>
+  );
+};
+
+class AppOld extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       businessList: [], //
       currentIndex: 0,
@@ -300,6 +346,7 @@ class App extends Component {
     );
   }
 }
+
 
 function getRandomNum(max) {
   return Math.floor(Math.random() * max);
