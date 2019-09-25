@@ -1,45 +1,59 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
+
+import { useSelector, useDispatch } from "react-redux";
+import { signIn } from '../action/action';
+
 import { Redirect } from "react-router-dom";
-import { verify } from 'crypto';
 
 
 // return login page info
 // pass in the verification object
-const Login = ({ verification, newUserInfo }) => {
+const Login = props => {
+  const user = useSelector(state => state.user);
+
+  if (user.data) return <Redirect to={'/'} />;
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
+
+  const onClick = e => {
+    dispatch(signIn(username, password));
+  };
+
+  const redirect = e => {
+    return <Redirect to={'/signup'} />
+  };
+
   return (
     <div className='modal' id='login'>
       <div className='login-header'>
         <div className='image-frame'>
-          <img className='logo' src={'../assets/logo.png'} />
+          <img className='logo' src={'../assets/logo.png'} alt={'Logo'}/>
         </div>
         <h1>Dinder Login</h1>
       </div>
       <div>
-        <form onSubmit={verification}>
+        <div>
           <div>
-            <label for='user'>Username:</label>
-            <input type='text' name='username' id='user' />
+            <label htmlFor='user'>Username:</label>
+            <input onChange={e => setUsername(e.target.value)} type='text' name='username' id='user'/>
           </div>
           <div>
-            <label for='password'>Password:</label>
-            <input type='password' name='password' id='password' />
+            <label htmlFor='password'>Password:</label>
+            <input onChange={e => setPassword(e.target.value)} type='password' name='password' id='password'/>
           </div>
 
           <div className='button-group'>
-            <button className='sign-in' name=' button' id='button' type='submit'>
-              <i className='fa fa-sign-in-alt'></i>
+            <button onClick={onClick} className='sign-in' name=' button' id='button' >
+              <i className='fa fa-sign-in-alt' />
             </button>
           </div>
-        </form>
-        <form onSubmit={newUserInfo}>
-          <button className='sign-up' name=' button' id='button2' type='submit' >
-            <i className='fas fa-user-plus'></i>
+          <button onClick={redirect} className='sign-up' name=' button' id='button2' >
+            <i className='fas fa-user-plus' />
           </button>
-        </form>
-      </div>
-      <div className="loginup">
-        <div className="login">LogIn</div>
-        <div className="logup">SignUp</div>
+        </div>
       </div>
     </div >
 

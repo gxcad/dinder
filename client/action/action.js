@@ -143,6 +143,9 @@ export const signOut = () => dispatch => {
 };
 
 export const signIn = (username, password) => dispatch => {
+  console.log('sign in');
+  console.log(username, password);
+
   dispatch({
     type: AUTH_ACTION_TYPE.SIGN_IN_LOADING
   });
@@ -164,16 +167,20 @@ export const signIn = (username, password) => dispatch => {
 };
 
 export const signUp = (username, password) => dispatch => {
+  console.log('sign up');
+  console.log(username, password);
   dispatch({
     type: AUTH_ACTION_TYPE.SIGN_UP_LOADING
   });
+
   axios.post('/api/signUp', {
     username,
     password
   }).then(res => {
     dispatch({
       type: AUTH_ACTION_TYPE.SIGN_UP_SUCCESS,
-    })
+      payload: res.data
+    });
   }).catch(error => {
     dispatch({
       type: AUTH_ACTION_TYPE.SIGN_UP_FAIL,
