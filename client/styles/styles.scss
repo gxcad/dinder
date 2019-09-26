@@ -45,7 +45,7 @@ a {
 }
 
 img {
-  object-fit: cover;
+  object-fit: cover !important;
 }
 
 // logo
@@ -53,7 +53,7 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 44px;
+  width: 60px;
   background: navy;
   border-radius: 5px;
   padding: 10px;
@@ -100,7 +100,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 80px;
+  height: 100px;
   box-shadow: 0 0 40px #000;
   padding: 0 10px;
   position: relative;
@@ -384,6 +384,14 @@ button,
   75% {
     transform: rotate(10deg);
   }
+}
+
+.detail {
+  height: 100vh;
+}
+
+.logo {
+
 }
 
 @import "./SignUp.scss";

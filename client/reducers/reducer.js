@@ -155,13 +155,13 @@ const currentBusiness = (state = {
         ...state,
         loading: true
       };
-    case BUSINESS_ACTION_TYPE.BUSINESS_404:
+    case BUSINESS_ACTION_TYPE.BUSINESS_200:
       return {
         ...state,
         loading: false,
         data: action.payload
       };
-    case BUSINESS_ACTION_TYPE.BUSINESS_200:
+    case BUSINESS_ACTION_TYPE.BUSINESS_404:
       return {
         ...state,
         loading: false,

@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import App from './components/App.jsx';
 import Login from './components/Loginpage.jsx';
 import SignUp from './components/Signup.jsx';
+import Detail from './components/Detail.jsx';
 import './styles/normalize.css';
 import './styles/styles.scss';
 
@@ -49,8 +50,7 @@ render(<Provider store={store}>
       <Route path={'/'} exact component={App} />
       <Route path={'/login'} component={Login} />
       <Route path={'/signup'} component={SignUp} />
-      <Route path={'/resturant'} component={MainContainer} />
-
+      <Route path={'/resturant/:id'} component={Detail} />
     </div>
   </Router>
 </Provider>,

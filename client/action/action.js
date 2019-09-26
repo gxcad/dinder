@@ -41,13 +41,14 @@ export const deleteFav = id => dispatch => {
   });
 };
 
-export const getCurrentBusiness = () => dispatch => {
+export const getCurrentBusiness = id => dispatch => {
   dispatch({
     type: BUSINESS_ACTION_TYPE.BUSINESS_LOADING
   });
   axios
-    .get('/api/yelp')
+    .get(`/api/yelp/${id}`)
     .then(res => {
+      console.log(res.data);
       dispatch({
         type: BUSINESS_ACTION_TYPE.BUSINESS_200,
         payload: res.data
