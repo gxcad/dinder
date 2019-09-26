@@ -11,6 +11,7 @@ const pool = new Pool({
 // 1. get Yelp API - one business with detail infor
 const getYelpDetail = (req, res, next) => {
     let id = req.params.id;
+    console.log('reached detail controller with id ', id);
     // yelp API search endpoint 
     axios.get(`https://api.yelp.com/v3/businesses/${id}`, {
         headers: {
@@ -18,7 +19,7 @@ const getYelpDetail = (req, res, next) => {
         }
     })
         .then((response) => {
-            console.log(response);
+            console.log("hello==>", response.data);
             res.locals.apiData = response.data;
             return next()
         })

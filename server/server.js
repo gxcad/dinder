@@ -10,6 +10,7 @@ const yelpAPIRouter = require('./routes/yelpAPI.js');
 
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(express.urlencoded());
 
 app.use('/assets', express.static(path.join(__dirname, '../client/assets')));
 

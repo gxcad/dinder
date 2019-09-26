@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import App from './components/App.jsx';
 import Login from './components/Loginpage.jsx';
 import SignUp from './components/Signup.jsx';
+import Detail from './components/Detail.jsx';
 import './styles/normalize.css';
 import './styles/styles.scss';
 
@@ -15,6 +16,7 @@ import cookie from 'cookie';
 import { Router, Route, Redirect } from 'react-router-dom';
 
 import { createBrowserHistory } from 'history';
+import MainContainer from './components/MainContainer.jsx';
 
 const history = createBrowserHistory();
 
@@ -43,12 +45,13 @@ const PrivateRoute = ({ component: Component, ...rest }) => <Route {...rest} ren
 
 // wrap react app with Provider to connect reducers with child components
 render(<Provider store={store}>
-    <Router history={history}>
-      <div>
-        <PrivateRoute exact path={'/'} component={App} />
-        <Route path={'/login'} component={Login} />
-        <Route path={'/signup'} component={SignUp} />
-      </div>
-    </Router>
-  </Provider>,
+  <Router history={history}>
+    <div>
+      <Route path={'/'} exact component={App} />
+      <Route path={'/login'} component={Login} />
+      <Route path={'/signup'} component={SignUp} />
+      <Route path={'/resturant/:id'} component={Detail} />
+    </div>
+  </Router>
+</Provider>,
   document.getElementById('app'));
