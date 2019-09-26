@@ -224,6 +224,34 @@ button,
   }
 }
 
+.sign-up {
+  background: linear-gradient(45deg, navy, skyblue);
+  box-shadow: 0 6px navy;
+
+  &:hover {
+    box-shadow: 0 4px navy;
+  }
+
+  i {
+    font-size: 30px;
+  }
+}
+
+#login button{
+  width: 100px;
+  height: 60px;
+}
+
+.loginup{
+  font-family: 'Josefin Sans', sans-serif;
+  display: flex;
+  justify-content: center;
+}
+.login{
+  margin-right:70px;
+}
+
+
 .history {
   margin: 0;
   top: -2px;
@@ -234,6 +262,9 @@ button,
 }
 
 .sign-in {
+  margin: auto;
+}
+.sign-up {
   margin: auto;
 }
 
@@ -354,3 +385,6 @@ button,
     transform: rotate(10deg);
   }
 }
+
+@import "./SignUp.scss";
+@import "./SignIn.scss";

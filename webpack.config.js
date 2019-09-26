@@ -11,9 +11,9 @@ module.exports = {
   mode: process.env.NODE_ENV,
   devServer: {
     publicPath: '/build/',
+    historyApiFallback: true,
     proxy: {
-      context: ['/favorites', '/login', '/assets'],
-      target: 'http://localhost:3000'
+      '/api': 'http://localhost:3000',
     }
   },
   module: {
@@ -47,5 +47,5 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
 };
