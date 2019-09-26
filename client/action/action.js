@@ -143,9 +143,6 @@ export const signOut = () => dispatch => {
 };
 
 export const signIn = (username, password) => dispatch => {
-  console.log('sign in');
-  console.log(username, password);
-
   dispatch({
     type: AUTH_ACTION_TYPE.SIGN_IN_LOADING
   });
@@ -155,7 +152,8 @@ export const signIn = (username, password) => dispatch => {
   }).then(res => {
     dispatch({
       type: AUTH_ACTION_TYPE.SIGN_IN_SUCCESS,
-    })
+      payload: res.data // should be ssid
+    });
   }).catch(error => {
     dispatch({
       type: AUTH_ACTION_TYPE.SIGN_IN_FAIL,
