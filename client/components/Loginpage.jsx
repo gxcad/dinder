@@ -26,6 +26,8 @@ const Login = props => {
     props.history.push('/signup');
   };
 
+  if (user.data) props.history.push('/');
+
   // useEffect(() => {
   //   console.log(user);
   //   if (user.data) return props.history.push('/');
