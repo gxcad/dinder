@@ -7,7 +7,7 @@ const pool = new Pool({
 
 
 const setCookie = (req, res, next) =>  {
-	res.cookie("loginCookie", res.locals.id, {httpOnly: te});
+	res.cookie("ssid", res.locals.id, {httpOnly: true});
 	next();
 }
 
@@ -46,7 +46,7 @@ const verifyUser = (req, res, next) => {
   const { username, password } = req.body;
   console.log(username, password);
   let arr = [req.body.username];
-	let queryforPass = `SELECT "password" FROM "Users" WHERE "user" = $1`;
+	let queryforPass = `SELECT * FROM "Users" WHERE "user" = $1`;
 	pool.query(queryforPass, arr, (err, result) => {
 		if (err) console.log("no result for user found");
     // console.log(result.rows[0].password);

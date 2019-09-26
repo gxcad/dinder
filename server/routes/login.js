@@ -6,7 +6,7 @@ router.get("/showusers", usercontroller.showUsers, (req, res) => { // -> /api/lo
 	res.send();
   });
   
-router.post("/", usercontroller.verifyUser, usercontroller.setCookie, (req, res) => {
+router.post("/signIn", usercontroller.verifyUser, usercontroller.setCookie, (req, res) => {
 	res.send("verified");
 });
 
