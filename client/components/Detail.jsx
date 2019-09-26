@@ -16,17 +16,28 @@ export default props => {
 
   const currentBusiness = useSelector(state => state.currentBusiness.data);
 
+  let counter = 0;
   return currentBusiness ?
-    <div className={'container'}>
+    <div className={'container detail'}>
       <Sidebar isSidebarOpen={false} />
-    <main className={'detail'}>
+    <main className={''}>
     <div className={'modal details'}>
     <div className='details-content'>
-      <h3>{currentBusiness.name}</h3>
-      <p>Address: {currentBusiness.location.address1}</p>
-      <p>Rating: {currentBusiness.rating}</p>
-      <p>{currentBusiness.review_count} reviews</p>
-      <p>Price: {currentBusiness.price}</p>
+      <div className={'detail-top'}>
+        {
+          currentBusiness.photos.map(url => {
+            return counter++ < 2 ? <img key={url} src={url} alt="Photo"/> : undefined
+          })
+        }
+      </div>
+      <div className={'detail-bottom'}>
+        <h3>{currentBusiness.name}</h3>
+        <p>Address: {currentBusiness.location.address1}</p>
+        <p>Phone Number: {currentBusiness.display_phone}</p>
+        <p>Rating: {currentBusiness.rating}</p>
+        <p>{currentBusiness.review_count} reviews</p>
+        <p>Price: {currentBusiness.price}</p>       
+      </div>
     </div>
     <div className='button-group'>
       <button
