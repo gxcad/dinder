@@ -18,7 +18,7 @@ const getYelpDetail = (req, res, next) => {
         }
     })
         .then((response) => {
-            console.log(response);
+            console.log("hello==>", response.data);
             res.locals.apiData = response.data;
             return next()
         })

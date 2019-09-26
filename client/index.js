@@ -14,6 +14,7 @@ import { Provider } from 'react-redux';
 import { Router, Route } from 'react-router-dom';
 
 import { createBrowserHistory } from 'history';
+import MainContainer from './components/MainContainer.jsx';
 
 const history = createBrowserHistory();
 
@@ -30,12 +31,14 @@ const store = createStore(
 
 // wrap react app with Provider to connect reducers with child components
 render(<Provider store={store}>
-    <Router history={history}>
-      <div>
-        <Route path={'/'} exact component={App} />
-        <Route path={'/login'} component={Login} />
-        <Route path={'/signup'} component={SignUp} />
-      </div>
-    </Router>
-  </Provider>,
+  <Router history={history}>
+    <div>
+      <Route path={'/'} exact component={App} />
+      <Route path={'/login'} component={Login} />
+      <Route path={'/signup'} component={SignUp} />
+      <Route path={'/resturant'} component={MainContainer} />
+
+    </div>
+  </Router>
+</Provider>,
   document.getElementById('app'));

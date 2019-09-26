@@ -18,7 +18,7 @@ export default props => {
 
   return <div id='dashboard'>
     {
-      businessList ? businessList.businesses.map(business => <Resturant key={business.id} name={business.name} url={business.url} image_url={business.image_url} />) : <div>Don't have business</div>
+      businessList ? businessList.businesses.map(business => <Resturant key={business.id} name={business.name} url={business.url} image_url={business.image_url} address={business.address} />) : <div>Don't have business</div>
     }
   </div>
 };
