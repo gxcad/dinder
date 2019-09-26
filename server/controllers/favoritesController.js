@@ -15,6 +15,8 @@ const getFavorites = (req, res, next) => {
         res.json(error);
       }
       res.locals.favorites = favorites.rows;
+      console.log(res.locals.favorites)
+
       return next();
     }
   );

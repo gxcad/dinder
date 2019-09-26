@@ -5,6 +5,7 @@ const pool = new Pool({
 	connectionString: url
 });
 
+
 const setCookie = (req, res, next) =>  {
 	res.cookie("loginCookie", res.locals.id, {httpOnly: te});
 	next();
@@ -16,22 +17,45 @@ const setCookie = (req, res, next) =>  {
 // 	});
 // }
 
-const verifyUser = (req, res, next) => {
+// const verifyUser = (req, res, next) => {
 
-	console.log(req.body);
-	let arr = [req.body.user];
-	let queryforPass = `SELECT * FROM "Users" WHERE "user" = $1`;
+// 	console.log(req.body);
+// 	let arr = [req.body.user];
+// 	let queryforPass = `SELECT * FROM "Users" WHERE "user" = $1`;
+// 	pool.query(queryforPass, arr, (err, result) => {
+// 		if (err) console.log("no result for user found");
+// 		if(result.rows.length === 0){
+// 			return res.send("Not Verified");
+// 		}
+// 		console.log("result.rows or something", result.rows);
+		
+// 		if (result.rows[0].password === req.body.pass) {
+// 			// console.log("pass");
+// 			res.locals.id = result.rows[0]["_id"];
+// 			//console.log("res loc id: ", res.locals.id)
+const showUsers = (req, res, next) => {
+  pool.query(`SELECT * FROM "Users"`, (err, result) => {
+    if(err) next(err);
+    console.log(result);
+    next();
+  })
+};
+
+const verifyUser = (req, res, next) => {
+  console.log('reached verifyUser controller!');
+  const { username, password } = req.body;
+  console.log(username, password);
+  let arr = [req.body.username];
+	let queryforPass = `SELECT "password" FROM "Users" WHERE "user" = $1`;
 	pool.query(queryforPass, arr, (err, result) => {
 		if (err) console.log("no result for user found");
-		if(result.rows.length === 0){
-			return res.send("Not Verified");
-		}
-		console.log("result.rows or something", result.rows);
-		
-		if (result.rows[0].password === req.body.pass) {
-			// console.log("pass");
+    // console.log(result.rows[0].password);
+    if (result.rows[0] === undefined) {
+      console.error(err);
+    }
+		if (result.rows[0].password === req.body.password) {
+			console.log("pass");
 			res.locals.id = result.rows[0]["_id"];
-			//console.log("res loc id: ", res.locals.id)
 			return next();
 		}
 		
@@ -39,15 +63,21 @@ const verifyUser = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-	let arr = [req.body.user, req.body.password];
-	let queryForSignup = `INSERT INTO "users" ("user","password") VALUES ($1,$2)`;
-	pool.query(queryForSignUp, arr, (err, result) => {
-		if (err) console.log("QUERY NOT FOUND");
-		return next();
+  const { username, password} = req.body;
+
+	//let queryForSignup = `INSERT INTO "Users" (user,password) VALUES ($1,$2)`;
+	pool.query(`INSERT INTO "Users" ("user", "password") VALUES ($1, $2)`, [username, password], (err, results) => {
+		if (err) {
+      console.log('this is the error', err);
+      return next(err);
+    }
+    console.log('no errors');
+    next();
 	});
 };
 
 module.exports = {
+  showUsers,
 	verifyUser,
 	createUser,
 	setCookie,

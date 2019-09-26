@@ -1,18 +1,10 @@
-import React, { Component, useState } from 'react';
-
+import React, { Component, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { signIn } from '../action/action';
-
+import { signUp } from '../action/action';
 import { Redirect } from "react-router-dom";
 
 
-// return login page info
-// pass in the verification object
-const Login = props => {
-  const user = useSelector(state => state.user);
-
-  if (user.data) return <Redirect to={'/'} />;
-
+const Signup = props => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -20,18 +12,14 @@ const Login = props => {
 
   const onSubmit = e => {
     e.preventDefault();
-    dispatch(signIn(username, password));
-  };
 
-  const redirect = e => {
-    e.preventDefault();
-    props.history.push('/signup');
+    dispatch(signUp(username, password));
   };
 
   return (
-    <div id='SignIn'>
+    <div id={'signUp'}>
       <div className={'header'}>
-        <h1>Dinder Sign-In</h1>
+        <h1>Dinder Sign-Up</h1>
       </div>
       <div className={'body'}>
         <div className={'modal'}>
@@ -45,18 +33,14 @@ const Login = props => {
               <input required type="password" name="password" id="password" value={password} onChange={e => setPassword(e.target.value)}/>
             </div>
             <div className={'button'}>
-              <button className='sign-in' name=' button' id='button' type={'submit'}>
-                <i className='fa fa-sign-in-alt' />
-              </button>
-              <button onClick={redirect} className='sign-up' name=' button' id='button2' >
+              <button className="btnSignup" name="button" id="button" type="submit">
                 <i className='fas fa-user-plus' />
               </button>
             </div>
           </form>
         </div>
       </div>
-    </div >
-
-  );
+    </div>
+  )
 };
-export default Login;
+export default Signup;
