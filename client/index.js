@@ -32,6 +32,7 @@ const store = createStore(
 
 const PrivateRoute = ({ component: Component, ...rest }) => <Route {...rest} render={props => {
   const cookies = cookie.parse(document.cookie);
+  console.log(cookies);
   if (cookies.ssid) { // check ssid cookie on the browser
     return <Component {...props} />
   }

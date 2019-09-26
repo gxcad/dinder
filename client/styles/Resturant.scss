@@ -1,0 +1,14 @@
+#dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    .resturantCard {
+        width: 500px;
+        display: flex;
+        flex-direction: column;
+        img {
+            width: 30px;
+            background: red
+        }
+    }
+}
