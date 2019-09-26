@@ -16,18 +16,21 @@ const showUsers = (req, res, next) => {
 const verifyUser = (req, res, next) => {
   let arr = [req.body.user];
   console.log('arr', arr);
-	let queryforPass = `SELECT "password" FROM "Users" WHERE "user" = $1`;
+  let queryforPass = `SELECT "password", "_id" FROM "Users" WHERE "user" = $1`;
 	pool.query(queryforPass, arr, (err, result) => {
+    console.log('result.rows[_id]', result.rows[0]._id);
 		if (err) console.log("no result for user found");
-    // console.log(result.rows[0].password);
+    console.log('req.body password', req.body.pass);
     if (result.rows[0] === undefined) {
       console.error(err);
     }
 		if (result.rows[0].password === req.body.pass) {
 			// console.log("pass");
 			return next();
-		}
-		return res.send("Not Verified");
+    }
+    res.locals.id = result.rows[0]._id;
+    console.log('user controller res.locals.id', res.locals.id);
+		return next();
 	});
 };
 

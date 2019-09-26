@@ -2,11 +2,13 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const favorites = require('./routes/favorites');
 const PORT = 3000;
 const login = require('./routes/login.js');
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use('/assets', express.static(path.join(__dirname, '../client/assets')));
 
