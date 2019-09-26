@@ -1,38 +1,18 @@
 const Pool = require("pg").Pool;
+const bcrypt = require('bcryptjs');
+// const salt = bcrypt.genSaltSync(10);
+// const hash = bcrypt.hashSync("B4c0/\/", salt);
 let url =
   "postgres://kpbrjtvt:tmU2ixXRIwrYp1_uBqvugQbY18KfYQwi@otto.db.elephantsql.com:5432/kpbrjtvt";
 const pool = new Pool({
   connectionString: url
 });
 
-
 const setCookie = (req, res, next) =>  {
 	res.cookie("ssid", res.locals.user._id, {httpOnly: false});
 	next();
 };
 
-// const printUser = (req, res, next) => {
-// 	pool.query(`SELECT * FROM "Users";`, (err, result) => {
-// 		console.log(result)
-// 	});
-// }
-
-// const verifyUser = (req, res, next) => {
-
-// 	console.log(req.body);
-// 	let arr = [req.body.user];
-// 	let queryforPass = `SELECT * FROM "Users" WHERE "user" = $1`;
-// 	pool.query(queryforPass, arr, (err, result) => {
-// 		if (err) console.log("no result for user found");
-// 		if(result.rows.length === 0){
-// 			return res.send("Not Verified");
-// 		}
-// 		console.log("result.rows or something", result.rows);
-		
-// 		if (result.rows[0].password === req.body.pass) {
-// 			// console.log("pass");
-// 			res.locals.id = result.rows[0]["_id"];
-// 			//console.log("res loc id: ", res.locals.id)
 const showUsers = (req, res, next) => {
   pool.query(`SELECT * FROM "Users"`, (err, result) => {
     if (err) next(err);
@@ -52,28 +32,36 @@ const verifyUser = (req, res, next) => {
     if (result.rows[0] === undefined) {
       return next(err);
     }
-		if (result.rows[0].password === req.body.password) {
-      res.locals.id = result.rows[0]._id;
-      res.locals.user = result.rows[0].user;
-			return next();
-		}
-    return next({
-      error: 'Password not match'
-    })
+    bcrypt.compare(req.body.password, result.rows[0].password, function(err, bcryptResult) {
+      if (bcryptResult) {
+        console.log('test', result.rows[0]);
+        res.locals.user = result.rows[0].user;
+        return next();
+      }
+      return next({
+        error: 'Password not match'
+      })
+      // res === true
+    });
+		
 	});
 };
 
 const createUser = (req, res, next) => {
   const { username, password } = req.body;
 
-	const queryForSignup = `INSERT INTO "Users" ("user", "password") VALUES ($1, $2)`;
-	pool.query(queryForSignup, [username, password], (err, results) => {
-		if (err) {
-      console.log('this is the error', err);
-      return next(err);
-    }
-    console.log('no errors');
-    next();
+  bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.hash(password, salt, function(err, hash) {
+      const queryForSignup = `INSERT INTO "Users" ("user", "password") VALUES ($1, $2)`;
+	    pool.query(queryForSignup, [username, hash], (err, results) => {
+		  if (err) {
+        console.log('this is the error', err);
+        return next(err);
+      }
+      console.log('no errors');
+      next();
+    });
+    });
   });
 };
 
