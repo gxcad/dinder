@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const usercontroller = require("../controllers/UserController");
+const userController = require("../controllers/UserController");
 
-router.get("/showusers", usercontroller.showUsers, (req, res) => { // -> /api/login/showusers
+router.get("/showusers", userController.showUsers, (req, res) => { // -> /api/login/showusers
   res.send();
 });
-router.post("/signIn", usercontroller.verifyUser, (req, res) => {
+router.post("/signIn", userController.verifyUser, userController.setCookie, (req, res) => {
 	res.status(200).json(res.locals.user);
 });
-router.post("/signUp", usercontroller.createUser, (req, res) => {
+
+router.post("/signUp", userController.createUser, (req, res) => {
 	res.send("user Created");
 });
 module.exports = router;

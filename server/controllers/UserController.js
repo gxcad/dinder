@@ -5,6 +5,34 @@ const pool = new Pool({
 	connectionString: url
 });
 
+
+const setCookie = (req, res, next) =>  {
+	res.cookie("ssid", res.locals.user._id, {httpOnly: true});
+	next();
+};
+
+// const printUser = (req, res, next) => {
+// 	pool.query(`SELECT * FROM "Users";`, (err, result) => {
+// 		console.log(result)
+// 	});
+// }
+
+// const verifyUser = (req, res, next) => {
+
+// 	console.log(req.body);
+// 	let arr = [req.body.user];
+// 	let queryforPass = `SELECT * FROM "Users" WHERE "user" = $1`;
+// 	pool.query(queryforPass, arr, (err, result) => {
+// 		if (err) console.log("no result for user found");
+// 		if(result.rows.length === 0){
+// 			return res.send("Not Verified");
+// 		}
+// 		console.log("result.rows or something", result.rows);
+		
+// 		if (result.rows[0].password === req.body.pass) {
+// 			// console.log("pass");
+// 			res.locals.id = result.rows[0]["_id"];
+// 			//console.log("res loc id: ", res.locals.id)
 const showUsers = (req, res, next) => {
   pool.query(`SELECT * FROM "Users"`, (err, result) => {
     if(err) next(err);
@@ -29,7 +57,7 @@ const verifyUser = (req, res, next) => {
       };
 			return next();
 		}
-		return res.send("Not Verified");
+		
 	});
 };
 
@@ -50,5 +78,7 @@ const createUser = (req, res, next) => {
 module.exports = {
   showUsers,
 	verifyUser,
-	createUser
+	createUser,
+	setCookie,
+	// printUser
 };

@@ -30,8 +30,8 @@ const Login = props => {
   //   console.log(user);
   //   if (user.data) return props.history.push('/');
   // }, [user]);
-
-  return user.data ? (
+  console.log(user.data);
+  return (
     <div id='SignIn'>
       <div className={'header'}>
         <h1>Dinder Sign-In</h1>
@@ -62,6 +62,6 @@ const Login = props => {
         </div>
       </div>
     </div >
-  ) : <div>Hello</div>;
+  );
 };
 export default Login;
