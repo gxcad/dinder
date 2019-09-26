@@ -4,22 +4,30 @@
     flex-wrap: wrap;
     width: 100%;
     background: yellowgreen;
-    
+    padding: 40px 0;
  
 }
 #dashboard > .resturantCard {
     flex-grow: 1;
-    width: 33%;
+    // width: 33%;
     background: whitesmoke;
-    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px 10px;
+    padding: 15px 10px;
 }
 
 img {
-    display:flex;
+    // display:flex;
     width: 300px;
     height: 400px;
-    flex-flow: 1;
-    align-items: center;
-    justify-content: space-around;
-    margin-left: 60px;
+    // flex-flow: 1;
+    // align-items: center;
+    // justify-content: space-around;
+    // margin-left: 60px;
+
 }
+
+
+
