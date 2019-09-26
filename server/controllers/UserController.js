@@ -25,12 +25,10 @@ const verifyUser = (req, res, next) => {
       console.error(err);
     }
 		if (result.rows[0].password === req.body.pass) {
-			// console.log("pass");
+      res.locals.id = result.rows[0]._id;
+      console.log('user controller res.locals.id', res.locals.id);
 			return next();
     }
-    res.locals.id = result.rows[0]._id;
-    console.log('user controller res.locals.id', res.locals.id);
-		return next();
 	});
 };
 
