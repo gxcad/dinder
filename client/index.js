@@ -10,8 +10,9 @@ import thunkMiddleware from 'redux-thunk';
 import rootReducer from './reducers/reducer';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
+import cookie from 'cookie';
 
-import { Router, Route } from 'react-router-dom';
+import { Router, Route, Redirect } from 'react-router-dom';
 
 import { createBrowserHistory } from 'history';
 import MainContainer from './components/MainContainer.jsx';
@@ -28,6 +29,18 @@ const store = createStore(
 );
 
 // history props for Router!!!
+
+
+const PrivateRoute = ({ component: Component, ...rest }) => <Route {...rest} render={props => {
+  const cookies = cookie.parse(document.cookie);
+  console.log(cookies);
+  if (cookies.ssid) { // check ssid cookie on the browser
+    return <Component {...props} />
+  }
+  else {
+    return <Redirect to={'/login'} />
+  }
+}} />;
 
 // wrap react app with Provider to connect reducers with child components
 render(<Provider store={store}>

@@ -25,7 +25,7 @@ const getYelpDetail = (req, res, next) => {
         .catch(err => next({
             err: "error"
         }))
-}
+};
 
 // 2. get Yelp many businesses 
 const LOCATION_SEARCHED = '1600 Main St 1st floor, Venice, CA 90291';
@@ -47,7 +47,7 @@ const getYelpMany = (req, res, next) => {
             console.log('error while fetching data');
             next({ error });
         });
-}
+};
 
 // 2. save direction into the database for the user
 // const currentUser = (req, res, next) => {
@@ -58,5 +58,4 @@ const getYelpMany = (req, res, next) => {
 module.exports = {
     getYelpDetail,
     getYelpMany
-}
-
+};
