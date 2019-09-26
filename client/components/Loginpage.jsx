@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from "react-redux";
 import { signIn } from '../action/action';
@@ -10,8 +10,6 @@ import { Redirect } from "react-router-dom";
 // pass in the verification object
 const Login = props => {
   const user = useSelector(state => state.user);
-
-  if (user.data) return <Redirect to={'/'} />;
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -28,6 +26,11 @@ const Login = props => {
     props.history.push('/signup');
   };
 
+  // useEffect(() => {
+  //   console.log(user);
+  //   if (user.data) return props.history.push('/');
+  // }, [user]);
+  console.log(user.data);
   return (
     <div id='SignIn'>
       <div className={'header'}>
@@ -35,6 +38,9 @@ const Login = props => {
       </div>
       <div className={'body'}>
         <div className={'modal'}>
+          {
+            user.data && <div>{user.data.user}</div>
+          }
           <form onSubmit={onSubmit} >
             <div className={'username'}>
               <label htmlFor="user"> Username: </label>
@@ -56,7 +62,6 @@ const Login = props => {
         </div>
       </div>
     </div >
-
   );
 };
 export default Login;
