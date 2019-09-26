@@ -26,14 +26,11 @@ const Login = props => {
     props.history.push('/signup');
   };
 
-  if (user.data) props.history.push('/');
-
   // useEffect(() => {
   //   console.log(user);
   //   if (user.data) return props.history.push('/');
   // }, [user]);
-  console.log(user.data);
-  return (
+  return !user.data ? (
     <div id='SignIn'>
       <div className={'header'}>
         <h1>Dinder Sign-In</h1>
@@ -64,6 +61,6 @@ const Login = props => {
         </div>
       </div>
     </div >
-  );
+  ) : <Redirect to={'/'} />;
 };
 export default Login;

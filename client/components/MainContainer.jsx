@@ -88,14 +88,9 @@ class MainContainerOld extends Component {
     // get current business detail from yelp api
     axios
       .get(
-        `${'https://cors-anywhere.herokuapp.com/'}https://api.yelp.com/v3/businesses/${
-          this.props.currentBusiness.yelpid
-        }`,
-        {
-          headers: {
-            Authorization: `Bearer ${key.API_KEY}`
-          }
-        }
+        `/api/yelp/${
+        this.props.currentBusiness.yelpid
+        }`
       )
       .then(({ data }) => {
         console.log('IN SHOW MORE DETAIL DATA: ', data);

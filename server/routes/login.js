@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const userController = require("../controllers/UserController");
+const userController = require("../controllers/userController");
 
 router.get("/showusers", userController.showUsers, (req, res) => { // -> /api/login/showusers
   res.send();

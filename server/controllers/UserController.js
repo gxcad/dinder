@@ -1,13 +1,13 @@
 const Pool = require("pg").Pool;
 let url =
-	"postgres://kpbrjtvt:tmU2ixXRIwrYp1_uBqvugQbY18KfYQwi@otto.db.elephantsql.com:5432/kpbrjtvt";
+  "postgres://kpbrjtvt:tmU2ixXRIwrYp1_uBqvugQbY18KfYQwi@otto.db.elephantsql.com:5432/kpbrjtvt";
 const pool = new Pool({
-	connectionString: url
+  connectionString: url
 });
 
 
 const setCookie = (req, res, next) =>  {
-	res.cookie("ssid", res.locals.user._id, {httpOnly: true});
+	res.cookie("ssid", res.locals.user._id, {httpOnly: false});
 	next();
 };
 
@@ -35,7 +35,7 @@ const setCookie = (req, res, next) =>  {
 // 			//console.log("res loc id: ", res.locals.id)
 const showUsers = (req, res, next) => {
   pool.query(`SELECT * FROM "Users"`, (err, result) => {
-    if(err) next(err);
+    if (err) next(err);
     console.log(result);
     next();
   })
@@ -57,22 +57,24 @@ const verifyUser = (req, res, next) => {
       };
 			return next();
 		}
-		
+    return next({
+      error: 'Password not match'
+    })
 	});
 };
 
 const createUser = (req, res, next) => {
-  const { username, password} = req.body;
+  const { username, password } = req.body;
 
-	//let queryForSignup = `INSERT INTO "Users" (user,password) VALUES ($1,$2)`;
-	pool.query(`INSERT INTO "Users" ("user", "password") VALUES ($1, $2)`, [username, password], (err, results) => {
-		if (err) {
+  //let queryForSignup = `INSERT INTO "Users" (user,password) VALUES ($1,$2)`;
+  pool.query(`INSERT INTO "Users" ("user", "password") VALUES ($1, $2)`, [username, password], (err, results) => {
+    if (err) {
       console.log('this is the error', err);
       return next(err);
     }
     console.log('no errors');
     next();
-	});
+  });
 };
 
 module.exports = {

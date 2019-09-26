@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const favorites = require('./routes/favorites');
 const PORT = 3000;
 const loginRouter = require('./routes/login.js');
+const yelpAPIRouter = require('./routes/yelpAPI.js');
 
 app.use(bodyParser.json());
 
@@ -20,7 +21,10 @@ app.get('/', (req, res) => {
 app.use('/api/login', loginRouter);
 // route to favorites
 app.use('/api/favorites', favorites);
+// route to yelp
+app.use('/api/yelp', yelpAPIRouter);
 
+// route 404
 app.use('*', (req, res) => {
   res.status(404).send('Route not found');
 });
