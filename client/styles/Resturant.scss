@@ -1,14 +1,25 @@
 #dashboard {
     display: flex;
+    direction: column;
     flex-wrap: wrap;
     width: 100%;
-    .resturantCard {
-        width: 500px;
-        display: flex;
-        flex-direction: column;
-        img {
-            width: 30px;
-            background: red
-        }
-    }
+    background: yellowgreen;
+    
+ 
+}
+#dashboard > .resturantCard {
+    flex-grow: 1;
+    width: 33%;
+    background: whitesmoke;
+    
+}
+
+img {
+    display:flex;
+    width: 300px;
+    height: 400px;
+    flex-flow: 1;
+    align-items: center;
+    justify-content: space-around;
+    margin-left: 60px;
 }
