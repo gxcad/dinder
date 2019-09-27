@@ -1,7 +1,6 @@
 const Pool = require("pg").Pool;
 const bcrypt = require('bcryptjs');
-// const salt = bcrypt.genSaltSync(10);
-// const hash = bcrypt.hashSync("B4c0/\/", salt);
+
 let url =
   "postgres://kpbrjtvt:tmU2ixXRIwrYp1_uBqvugQbY18KfYQwi@otto.db.elephantsql.com:5432/kpbrjtvt";
 const pool = new Pool({
@@ -43,7 +42,6 @@ const verifyUser = (req, res, next) => {
       })
       // res === true
     });
-		
 	});
 };
 

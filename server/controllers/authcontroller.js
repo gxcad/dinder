@@ -1,5 +1,7 @@
 const cookieParser = require('cookie-parser');
 const uuidv4 = require('uuid/v4');
+const jwt = require('jsonwebtoken');
+const JWTsecret = require('./secret');
 const Pool = require("pg").Pool;
 let url =
 	"postgres://kpbrjtvt:tmU2ixXRIwrYp1_uBqvugQbY18KfYQwi@otto.db.elephantsql.com:5432/kpbrjtvt";
@@ -8,10 +10,13 @@ const pool = new Pool({
 });
 
 const setCookie = (req, res, next) => {
-  res.locals.sessionId = uuidv4();
-  console.log('res.locals.id in authController', res.locals.id);
-  res.cookie('ssid', res.locals.sessionId, {httpOnly: false});
-  return next();
+  jwt.sign({ foo: 'bar' }, JWTsecret, { algorithm: 'RS256' }, function(err, token) {
+    res.locals.jwtToken = token;
+    console.log('token in set cookie', token);
+    // console.log('res.locals.id in authController', res.locals.id);
+    res.cookie('ssid', res.locals.jwtToken, {httpOnly: true});
+    return next();
+  });
 }
 
 const setSession = (req, res, next) => {
